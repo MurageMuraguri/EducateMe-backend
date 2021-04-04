@@ -26,7 +26,7 @@ SECRET_KEY = 'kupwakj-#sf3=fdg6o59g2jt&y45gue4ei#_e&4-o%8z(o_&4m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['educateme-elite.azurewebsites.net']
+ALLOWED_HOSTS = ['educateme-elite.azurewebsites.net','localhost']
 
 
 # Application definition

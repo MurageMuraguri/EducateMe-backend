@@ -4,7 +4,7 @@ from rest_framework import serializers
 #from rest.app.profile.models import UserProfile
 from users.models import User
 from rest_framework_jwt.settings import api_settings
-
+from django.contrib.auth.hashers import make_password
 
 
 #class UserSerializer(serializers.ModelSerializer):
@@ -66,12 +66,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
       # **validated_data,
         user = User.objects.create(
                                         email = validated_data['email'],
-                                        password = validated_data['password'],
+                                        password = make_password(validated_data['password']),
                                         name = validated_data['name'],
                                         date_of_birth = validated_data['date_of_birth'],
                                         country = validated_data['country'],
                                         phone_number = validated_data['phone_number']
                                         )
+       
       
       #  UserProfile.objects.create(
     #     user=user,
