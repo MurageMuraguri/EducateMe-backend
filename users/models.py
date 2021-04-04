@@ -2,11 +2,13 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
+
+
 # Create your models here.
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, password=None):
+    def create_user(self, email, name , date_of_birth , country, phone_number, password=None, profile_photo = 'Okay'):
         """
         Create and return a `User` with an email, username and password.
         """
@@ -30,9 +32,14 @@ class User(AbstractBaseUser):
         unique=True
         )
     is_active = models.BooleanField(default=True)
+    name = models.TextField()
+    date_of_birth = models.DateField()
+    country = models.TextField()
+    phone_number = models.TextField()
+    profile_picture = models.URLField()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['name','date_of_birth','country','phone_number']
 
     # Tells Django that the UserManager class defined above should manage
     # objects of this type.

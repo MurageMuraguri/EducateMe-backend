@@ -24,6 +24,7 @@ class UserRegistrationView(CreateAPIView):
         
         return Response(response, status=status_code)
 
+
 class UserLoginView(RetrieveAPIView):
 
     permission_classes = (AllowAny,)

@@ -6,6 +6,7 @@ from users.models import User
 from rest_framework_jwt.settings import api_settings
 
 
+
 #class UserSerializer(serializers.ModelSerializer):
 
    # class Meta:
@@ -42,21 +43,32 @@ class UserLoginSerializer(serializers.Serializer):
             'token': jwt_token
         }
         
+
+    
+        
 class UserRegistrationSerializer(serializers.ModelSerializer):
 
    # profile = UserSerializer(required=False)
 
     class Meta:
         model = User
-        fields = ('email', 'password')
+        fields = ('email', 'password','name','date_of_birth','country','phone_number')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
        # profile_data = validated_data.pop('profile')
-        user = User.objects.create_user(**validated_data)
+      # **validated_data,
+        user = User.objects.create(
+                                        email = validated_data['email'],
+                                        password = validated_data['password'],
+                                        name = validated_data['name'],
+                                        date_of_birth = validated_data['date_of_birth'],
+                                        country = validated_data['country'],
+                                        phone_number = validated_data['phone_number']
+                                        )
       
       #  UserProfile.objects.create(
-       #     user=user,
+    #     user=user,
         #    first_name=profile_data['first_name'],
          #   last_name=profile_data['last_name'],
           #  phone_number=profile_data['phone_number'],
