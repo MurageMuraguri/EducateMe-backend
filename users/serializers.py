@@ -39,7 +39,13 @@ class UserLoginSerializer(serializers.Serializer):
                 'User with given email and password does not exists'
             )
         return {
-            'email':user.email,
+            'email' : user.email,
+            'name' : user.name,
+            'country' : user.country,
+            'phone_number' : user.phone_number,
+            'date_of_birth' : user.date_of_birth,
+            'profile_picture' : user.profile_picture,
+            'uID':user.id,
             'token': jwt_token
         }
         

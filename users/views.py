@@ -29,6 +29,7 @@ class UserLoginView(RetrieveAPIView):
 
     permission_classes = (AllowAny,)
     serializer_class = UserLoginSerializer
+    
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
