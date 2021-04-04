@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from users.serializers import UserRegistrationSerializer
 from users.serializers import UserLoginSerializer
+from users.models import User
 
 # Create your views here.
 class UserRegistrationView(CreateAPIView):
@@ -29,24 +30,28 @@ class UserLoginView(RetrieveAPIView):
 
     permission_classes = (AllowAny,)
     serializer_class = UserLoginSerializer
+    queryset = User.objects.all()
     
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print(serializer.data)
+       
+        
+        #user = User.objects.filter(email=serializer.data['email'])
+        
         response = {
             'success' : 'True',
             'status code' : status.HTTP_200_OK,
             'message': 'User logged in  successfully',
             'user_info':{
                 'email' : serializer.data['email'],
-               # 'name' : serializer.data['name'],
-               # 'country' : serializer.data['country'],
-               # 'phone_number' : serializer.data['phone_number'],
-               # 'date_of_birth' : serializer.data['date_of_birth'],
-                #'profile_picture' : serializer.data['profile_picture'],
-               # 'uID':serializer.data['uID']
+                #'name' : user.name,
+                #'country' : user.country,
+               # 'phone_number' : user.phone_number,
+                #'date_of_birth' : user.date_of_birth,
+               # 'profile_picture' : user.profile_picture,
+               # 'uID': user.id
             },
             'token' : serializer.data['token'],
             }
