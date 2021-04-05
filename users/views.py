@@ -36,22 +36,21 @@ class UserLoginView(RetrieveAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-       
         
-        #user = User.objects.filter(email=serializer.data['email'])
-        
+        user = User.objects.filter(email=serializer.data['email']).values()
+
         response = {
             'success' : 'True',
             'status code' : status.HTTP_200_OK,
             'message': 'User logged in  successfully',
             'user_info':{
                 'email' : serializer.data['email'],
-                #'name' : user.name,
-                #'country' : user.country,
-               # 'phone_number' : user.phone_number,
-                #'date_of_birth' : user.date_of_birth,
-               # 'profile_picture' : user.profile_picture,
-               # 'uID': user.id
+                'name' : user[0]['name'],
+                'country' : user[0]['country'],
+                'phone_number' : user[0]['phone_number'],
+                'date_of_birth' : user[0]['date_of_birth'],
+                'profile_picture' : user[0]['profile_picture'],
+                'uID': user[0]['id']
             },
             'token' : serializer.data['token'],
             }

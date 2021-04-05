@@ -5,6 +5,7 @@ from rest_framework import serializers
 from users.models import User
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import get_user_model
 
 
 #class UserSerializer(serializers.ModelSerializer):
@@ -21,6 +22,8 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
     
+   
+        
     class Meta:
         model = User
         fields = ('email','name','date_of_birth','country','phone_number')
@@ -31,6 +34,7 @@ class UserLoginSerializer(serializers.Serializer):
         password = data.get("password", None)
         user = authenticate(email=email, password=password)
         
+        
         if user is None:
             raise serializers.ValidationError(
                 'A user with this email and / or password is not found or doesn\'t exist.'
@@ -39,6 +43,11 @@ class UserLoginSerializer(serializers.Serializer):
             payload = JWT_PAYLOAD_HANDLER(user)
             jwt_token = JWT_ENCODE_HANDLER(payload)
             update_last_login(None, user)
+            # usa = get_user_model
+            # usr = usa.objects.get(email = user.email)
+            # #usr =  usr.family_set.values()
+            # print (usr)
+            # print(user)
           
         except User.DoesNotExist:
             raise serializers.ValidationError(
