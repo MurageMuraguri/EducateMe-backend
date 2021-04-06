@@ -3,6 +3,7 @@ from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
 #from rest.app.profile.models import UserProfile
 from users.models import User
+from users.models import Courses
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
@@ -98,3 +99,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             #gender=profile_data['gender']
         #)
         return user
+
+class CourseSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Courses
+        fields = '__all__'

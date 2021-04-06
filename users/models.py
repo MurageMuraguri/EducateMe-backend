@@ -53,3 +53,12 @@ class User(AbstractBaseUser):
         to set table name in database
         '''
         db_table = "users"
+
+class Courses(models.Model):
+    _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.TextField()
+    content = models.TextField()
+    teacher = models.TextField()
+    teacher_country = models.TextField()
+    
+    REQUIRED_FIELDS = ['name','content','teacher','teacher_country']

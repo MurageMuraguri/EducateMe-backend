@@ -5,7 +5,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from users.serializers import UserRegistrationSerializer
 from users.serializers import UserLoginSerializer
+from users.serializers import CourseSerializer
 from users.models import User
+from users.models import Courses
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from rest_framework.decorators import api_view
 
 # Create your views here.
 class UserRegistrationView(CreateAPIView):
@@ -57,3 +62,20 @@ class UserLoginView(RetrieveAPIView):
         status_code = status.HTTP_200_OK
 
         return Response(response, status=status_code)
+
+@api_view(['GET','POST'])
+def courses_list(request):
+    if request.method == 'GET':
+        courses = Courses.objects.all()
+        print (courses)
+        courses_serializer = CourseSerializer(courses, many = True)
+        return JsonResponse(courses_serializer.data, safe = False)
+    
+    elif request.method == 'POST':
+        courses_data = JSONParser().parse(request)
+        courses_serializer = CourseSerializer(data = courses_data)
+        
+        if courses_serializer.is_valid():
+            courses_serializer.save()
+            return JsonResponse(courses_serializer.data, status=status.HTTP_201_CREATED) 
+        return JsonResponse(courses_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
